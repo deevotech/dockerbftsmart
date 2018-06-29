@@ -1,0 +1,22 @@
+version: '2'
+
+networks:
+  fabric-ca:
+
+services:
+
+  replica-0:
+    container_name: replica-test
+    working_dir: /opt/gopath/src/github.com/hyperledger/hyperledger-bftsmart-release-1.1
+    image: bftsmart
+    command: /bin/bash -c '/scripts/start-replica.sh 2>&1 | tee /data/logs/replica-test.log'
+    environment:
+      - NUMBER=0
+    volumes:
+      - ./scripts:/scripts
+      - ./data:/data
+      - /usr/lib:/usr/lib
+    networks:
+      - fabric-ca
+    ports:
+      - "11000:11000"
